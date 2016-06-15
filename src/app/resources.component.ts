@@ -12,21 +12,18 @@ import { Observable } from 'rxjs/Rx';
 @Pipe({name: 'reFirebase'})
 export class ValuesPipe implements PipeTransform {
     transform(value: any, args?: any[]): any[] {
-        // create instance vars to store keys and final output
-        let keyArr = Object.keys(value),
-            dataArr = [];
+        
+        let keys = Object.keys(value),
+            output = [];
 
-        // loop through the object,
-        // pushing values to the return array
-        keyArr.forEach(key => {
+        keys.forEach(key => {
             let arrayItem = value[key];
-            //arrayItem.$key = key;
             if(key != "$key") {
               arrayItem.$key = key;
-              dataArr.push(arrayItem);
+              output.push(arrayItem);
             }
         });
-        return dataArr;
+        return output;
     }
 }
 
@@ -35,7 +32,7 @@ export class ValuesPipe implements PipeTransform {
   selector: 'resources-app',
   templateUrl: 'resources.component.html',
   styleUrls: ['resources.component.css'],
-  directives: [ MD_BUTTON_DIRECTIVES, MD_TOOLBAR_DIRECTIVES, MD_INPUT_DIRECTIVES ],
+  directives: [ ...MD_BUTTON_DIRECTIVES, ...MD_TOOLBAR_DIRECTIVES, ...MD_INPUT_DIRECTIVES ],
   pipes: [ValuesPipe]
 })
 export class ResourcesAppComponent implements OnInit {
